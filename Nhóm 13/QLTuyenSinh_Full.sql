@@ -1,8 +1,8 @@
 -- TẠO DATABASE
-CREATE DATABASE QLTuyenSinh;
+CREATE DATABASE QLTuyenSinhh;
 GO
 
-USE QLTuyenSinh;
+USE QLTuyenSinhh;
 GO
 
 -- 1. TRƯỜNG
@@ -236,4 +236,45 @@ JOIN THISINH TS ON D.DiemThiSo = TS.DiemThiSo
 JOIN NGANH N ON TS.MaNganh = N.MaNganh
 WHERE N.TenNganh = N'Quản trị Kinh doanh'
 --KQ: Trường PTTH Bùi Thị Xuân
+
+
+-- Câu 1: Liệt kê thí sinh lớn tuổi nhất
+SELECT HoTen, NgaySinh
+FROM THISINH
+WHERE NgaySinh = (
+    SELECT MIN(NgaySinh)
+    FROM THISINH)
+GO
+--KQ: Vũ Mạnh Cường
+-- Câu 2: Liệt kê các môn thi mà có ít hơn 5 thí sinh đăng ký
+SELECT M.TenMT
+FROM MONTHI M
+WHERE M.MaMT IN (
+    SELECT MaMT
+    FROM THI
+    GROUP BY MaMT
+    HAVING COUNT(SoBD) < 5)
+GO
+--KQ: 4 rows
+-- Câu 3. Liệt kê tên các điểm thi không có thí sinh nào thuộc ngành "01"
+SELECT DT.DiaChiDiemThi
+FROM DIEMTHI DT
+WHERE DT.DiemThiSo NOT IN (
+    SELECT DISTINCT PT.DiemThiSo
+    FROM THISINH TS
+    JOIN PHONGTHI PT ON TS.SoPhong = PT.SoPhong
+    WHERE TS.MaNganh = '01')
+GO
+--KQ: 3 rows
+-- Câu 4. Liệt kê các thí sinh thi cùng môn với thí sinh có số báo danh "00001"
+SELECT DISTINCT TS.HoTen
+FROM THISINH TS
+JOIN THI TG ON TS.SoBD = TG.SoBD
+WHERE TG.MaMT IN (
+    SELECT MaMT
+    FROM THI
+    WHERE SoBD = '00001')
+AND TS.SoBD != '00001'
+GO
+--KQ: 1 rows
 
