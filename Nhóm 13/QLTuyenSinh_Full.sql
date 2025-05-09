@@ -1,8 +1,8 @@
 -- TẠO DATABASE
-CREATE DATABASE QLTuyenSinhh;
+CREATE DATABASE QLTuyenSinh;
 GO
 
-USE QLTuyenSinhh;
+USE QLTuyenSinh;
 GO
 
 -- 1. TRƯỜNG
